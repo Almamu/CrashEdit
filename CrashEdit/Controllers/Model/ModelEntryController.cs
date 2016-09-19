@@ -1,8 +1,9 @@
 using Crash;
+using System.Windows.Forms;
 
 namespace CrashEdit
 {
-    public sealed class ModelEntryController : MysteryMultiItemEntryController
+    public sealed class ModelEntryController : EntryController
     {
         private ModelEntry modelentry;
 
@@ -14,9 +15,22 @@ namespace CrashEdit
 
         public override void InvalidateNode()
         {
-            Node.Text = string.Format("Model Entry ({0})",modelentry.EName);
-            Node.ImageKey = "modelentry";
-            Node.SelectedImageKey = "modelentry";
+            Node.Text = string.Format("Model ({0})",modelentry.EName);
+            Node.ImageKey = "thing";
+            Node.SelectedImageKey = "thing";
+        }
+
+        protected override Control CreateEditor()
+        {
+            if (modelentry.Positions != null)
+                return new AnimationEntryViewer(modelentry);
+            else
+            {
+                Label label = new Label();
+                label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+                label.Text = "No options available";
+                return label;
+            }
         }
 
         public ModelEntry ModelEntry

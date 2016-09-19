@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Crash
@@ -7,7 +6,7 @@ namespace Crash
     {
         private List<OldFrame> frames;
 
-        public OldAnimationEntry(IEnumerable<OldFrame> frames,int eid) : base(eid)
+        public OldAnimationEntry(IEnumerable<OldFrame> frames,int eid, int size) : base(eid, size)
         {
             this.frames = new List<OldFrame>(frames);
         }
@@ -29,7 +28,7 @@ namespace Crash
             {
                 items[i] = frames[i].Save();
             }
-            return new UnprocessedEntry(items,EID,Type);
+            return new UnprocessedEntry(items,EID,Type,Size);
         }
     }
 }

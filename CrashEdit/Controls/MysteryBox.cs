@@ -1,6 +1,4 @@
-using Crash;
 using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace CrashEdit
@@ -8,6 +6,7 @@ namespace CrashEdit
     public sealed class MysteryBox : UserControl
     {
         private byte[] data;
+        private bool saving;
 
         private ToolStrip tsToolbar;
         private ToolStripButton tbbExport;
@@ -16,6 +15,7 @@ namespace CrashEdit
         public MysteryBox(byte[] data)
         {
             this.data = data;
+            saving = false;
 
             tbbExport = new ToolStripButton();
             tbbExport.Text = "Export";
@@ -35,7 +35,12 @@ namespace CrashEdit
 
         void tbbExport_Click(object sender,EventArgs e)
         {
-            FileUtil.SaveFile(data,FileFilters.Any);
+            if (!saving)
+            {
+                saving = true;
+                FileUtil.SaveFile(data, FileFilters.Any);
+                saving = false;
+            }
         }
     }
 }

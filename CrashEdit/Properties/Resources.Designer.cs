@@ -60,6 +60,13 @@ namespace CrashEdit.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Computer_File_053 {
+            get {
+                object obj = ResourceManager.GetObject("Computer_File_053", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Computer_File_063 {
             get {
                 object obj = ResourceManager.GetObject("Computer_File_063", resourceCulture);
@@ -71,6 +78,22 @@ namespace CrashEdit.Properties {
             get {
                 object obj = ResourceManager.GetObject("Computer_File_064", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Computer_File_068 {
+            get {
+                object obj = ResourceManager.GetObject("Computer_File_068", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string Menu_Edit {
+            get {
+                return ResourceManager.GetString("Menu_Edit", resourceCulture);
             }
         }
         
@@ -245,6 +268,76 @@ namespace CrashEdit.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap objects_006 {
+            get {
+                object obj = ResourceManager.GetObject("objects_006", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap objects_006_red {
+            get {
+                object obj = ResourceManager.GetObject("objects_006_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap objects_006_yellow {
+            get {
+                object obj = ResourceManager.GetObject("objects_006_yellow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap objects_012 {
+            get {
+                object obj = ResourceManager.GetObject("objects_012", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap objects_012_blue {
+            get {
+                object obj = ResourceManager.GetObject("objects_012_blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap objects_012_code {
+            get {
+                object obj = ResourceManager.GetObject("objects_012_code", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap objects_012_crimson {
+            get {
+                object obj = ResourceManager.GetObject("objects_012_crimson", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap objects_012_gray {
+            get {
+                object obj = ResourceManager.GetObject("objects_012_gray", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap objects_012_lime {
+            get {
+                object obj = ResourceManager.GetObject("objects_012_lime", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap objects_012_violet {
+            get {
+                object obj = ResourceManager.GetObject("objects_012_violet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap objects_020 {
             get {
                 object obj = ResourceManager.GetObject("objects_020", resourceCulture);
@@ -280,6 +373,20 @@ namespace CrashEdit.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap objects_053_blue {
+            get {
+                object obj = ResourceManager.GetObject("objects_053_blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap objects_053_white {
+            get {
+                object obj = ResourceManager.GetObject("objects_053_white", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap objects_070 {
             get {
                 object obj = ResourceManager.GetObject("objects_070", resourceCulture);
@@ -291,6 +398,57 @@ namespace CrashEdit.Properties {
             get {
                 object obj = ResourceManager.GetObject("objects_079", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap People_014 {
+            get {
+                object obj = ResourceManager.GetObject("People_014", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap People_017 {
+            get {
+                object obj = ResourceManager.GetObject("People_017", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap People_020 {
+            get {
+                object obj = ResourceManager.GetObject("People_020", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap People_020_code {
+            get {
+                object obj = ResourceManager.GetObject("People_020_code", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap People_020_cyan {
+            get {
+                object obj = ResourceManager.GetObject("People_020_cyan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap People_020_red {
+            get {
+                object obj = ResourceManager.GetObject("People_020_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file &quot;{0}&quot; has not been saved since it was last modified. Continue anyway?.
+        /// </summary>
+        internal static string Text_CloseDirtyFilePrompt {
+            get {
+                return ResourceManager.GetString("Text_CloseDirtyFilePrompt", resourceCulture);
             }
         }
         

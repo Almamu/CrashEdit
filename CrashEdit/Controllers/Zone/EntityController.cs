@@ -14,21 +14,25 @@ namespace CrashEdit
             this.zoneentrycontroller = zoneentrycontroller;
             this.entity = entity;
             AddMenu("Duplicate Entity",Menu_Duplicate);
+            Node.ImageKey = "arrow";
+            Node.SelectedImageKey = "arrow";
             InvalidateNode();
         }
 
         public override void InvalidateNode()
         {
-            if (entity.Name != null)
+            if (entity.Name != null && entity.ID != null)
             {
-                Node.Text = string.Format("Entity ({0})",entity.Name);
+                Node.Text = string.Format("{0} - ID {1}",entity.Name,entity.ID);
             }
-            else
+            else if (entity.ID != null)
+            {
+                Node.Text = string.Format("Entity ID {0}",entity.ID);
+            }
+            else if (Node.Text != "Entity")
             {
                 Node.Text = "Entity";
             }
-            Node.ImageKey = "entity";
-            Node.SelectedImageKey = "entity";
         }
 
         protected override Control CreateEditor()

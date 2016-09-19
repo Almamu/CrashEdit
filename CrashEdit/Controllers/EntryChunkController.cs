@@ -1,5 +1,6 @@
 using Crash;
 using System;
+using System.Windows.Forms;
 
 namespace CrashEdit
 {
@@ -22,9 +23,18 @@ namespace CrashEdit
             get { return entrychunk; }
         }
 
+        protected override Control CreateEditor()
+        {
+            return new EntryChunkBox(this);
+        }
+
         internal EntryController CreateEntryController(Entry entry)
         {
-            if (entry is OldAnimationEntry)
+            if (entry is ProtoAnimationEntry)
+            {
+                return new ProtoAnimationEntryController(this, (ProtoAnimationEntry)entry);
+            }
+            else if (entry is OldAnimationEntry)
             {
                 return new OldAnimationEntryController(this,(OldAnimationEntry)entry);
             }
@@ -38,7 +48,15 @@ namespace CrashEdit
             }
             else if (entry is ModelEntry)
             {
-                return new ModelEntryController(this,(ModelEntry)entry);
+                return new ModelEntryController(this, (ModelEntry)entry);
+            }
+            else if (entry is AnimationEntry)
+            {
+                return new AnimationEntryController(this, (AnimationEntry)entry);
+            }
+            else if (entry is ProtoSceneryEntry)
+            {
+                return new ProtoSceneryEntryController(this,(ProtoSceneryEntry)entry);
             }
             else if (entry is OldSceneryEntry)
             {
@@ -48,13 +66,21 @@ namespace CrashEdit
             {
                 return new SceneryEntryController(this,(SceneryEntry)entry);
             }
-            else if (entry is T4Entry)
+            else if (entry is NewSceneryEntry)
             {
-                return new T4EntryController(this,(T4Entry)entry);
+                return new NewSceneryEntryController(this,(NewSceneryEntry)entry);
+            }
+            else if (entry is SLSTEntry)
+            {
+                return new SLSTEntryController(this,(SLSTEntry)entry);
             }
             else if (entry is T6Entry)
             {
                 return new T6EntryController(this,(T6Entry)entry);
+            }
+            else if (entry is ProtoZoneEntry)
+            {
+                return new ProtoZoneEntryController(this,(ProtoZoneEntry)entry);
             }
             else if (entry is OldZoneEntry)
             {
@@ -63,6 +89,10 @@ namespace CrashEdit
             else if (entry is ZoneEntry)
             {
                 return new ZoneEntryController(this,(ZoneEntry)entry);
+            }
+            else if (entry is NewZoneEntry)
+            {
+                return new NewZoneEntryController(this,(NewZoneEntry)entry);
             }
             else if (entry is T11Entry)
             {
@@ -100,17 +130,17 @@ namespace CrashEdit
             {
                 return new T17EntryController(this,(T17Entry)entry);
             }
-            else if (entry is T18Entry)
+            else if (entry is PaletteEntry)
             {
-                return new T18EntryController(this,(T18Entry)entry);
+                return new PaletteEntryController(this,(PaletteEntry)entry);
             }
             else if (entry is DemoEntry)
             {
                 return new DemoEntryController(this,(DemoEntry)entry);
             }
-            else if (entry is T20Entry)
+            else if (entry is CutsceneAnimationEntry)
             {
-                return new T20EntryController(this,(T20Entry)entry);
+                return new CutsceneAnimationEntryController(this,(CutsceneAnimationEntry)entry);
             }
             else if (entry is SpeechEntry)
             {
@@ -119,6 +149,10 @@ namespace CrashEdit
             else if (entry is T21Entry)
             {
                 return new T21EntryController(this,(T21Entry)entry);
+            }
+            else if (entry is T2Entry)
+            {
+                return new T2EntryController(this, (T2Entry)entry);
             }
             else if (entry is UnprocessedEntry)
             {

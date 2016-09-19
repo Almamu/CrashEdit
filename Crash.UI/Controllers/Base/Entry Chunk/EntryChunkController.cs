@@ -1,6 +1,4 @@
 using System;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Crash.UI
 {
@@ -47,9 +45,9 @@ namespace Crash.UI
             {
                 Subcontrollers.Insert(e.Index,new SceneryEntryController(this,(SceneryEntry)e.Item));
             }
-            else if (e.Item is T4Entry)
+            else if (e.Item is SLSTEntry)
             {
-                Subcontrollers.Insert(e.Index,new T4EntryController(this,(T4Entry)e.Item));
+                Subcontrollers.Insert(e.Index,new SLSTEntryController(this,(SLSTEntry)e.Item));
             }
             else if (e.Item is T6Entry)
             {
@@ -99,17 +97,17 @@ namespace Crash.UI
             {
                 Subcontrollers.Insert(e.Index,new T17EntryController(this,(T17Entry)e.Item));
             }
-            else if (e.Item is T18Entry)
+            else if (e.Item is PaletteEntry)
             {
-                Subcontrollers.Insert(e.Index,new T18EntryController(this,(T18Entry)e.Item));
+                Subcontrollers.Insert(e.Index,new PaletteEntryController(this,(PaletteEntry)e.Item));
             }
             else if (e.Item is DemoEntry)
             {
                 Subcontrollers.Insert(e.Index,new DemoEntryController(this,(DemoEntry)e.Item));
             }
-            else if (e.Item is T20Entry)
+            else if (e.Item is CutsceneAnimationEntry)
             {
-                Subcontrollers.Insert(e.Index,new T20EntryController(this,(T20Entry)e.Item));
+                Subcontrollers.Insert(e.Index,new CutsceneAnimationEntryController(this,(CutsceneAnimationEntry)e.Item));
             }
             else if (e.Item is SpeechEntry)
             {

@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using System.Reflection;
 using System.Collections.Generic;
 
@@ -28,16 +27,10 @@ namespace Crash
                 ErrorManager.SignalError("Entity: Data is too short");
             }
             int length = BitConv.FromInt32(data,0);
-            int blank1 = BitConv.FromInt32(data,4);
-            int blank2 = BitConv.FromInt32(data,8);
             int propertycount = BitConv.FromInt32(data,12);
             if (length != data.Length)
             {
                 ErrorManager.SignalIgnorableError("Entity: Length field mismatch");
-            }
-            if (blank1 != 0 || blank2 != 0)
-            {
-                ErrorManager.SignalIgnorableError("Entity: Blank value is wrong");
             }
             if (propertycount < 0 || propertycount > ushort.MaxValue)
             {
@@ -95,6 +88,12 @@ namespace Crash
         private int? type;
         [EntityPropertyField(0xAA)]
         private int? subtype;
+        [EntityPropertyField(0x103)]
+        private int? slst;
+        [EntityPropertyField(0x118)]
+        private int? othersettings = null;
+        [EntityPropertyField(0x131)]
+        private EntityVictimProperty camerathing = null;
         [EntityPropertyField(0x13B)]
         private EntityInt32Property drawlista = null;
         [EntityPropertyField(0x13C)]
@@ -103,10 +102,19 @@ namespace Crash
         private EntityT4Property loadlista = null;
         [EntityPropertyField(0x209)]
         private EntityT4Property loadlistb = null;
+        [EntityPropertyField(0x277)]
+        private int? ddasettings = null;
         [EntityPropertyField(0x287)]
-        private List<short> victims = null;
+        private List<EntityVictim> victims = null;
+        [EntityPropertyField(0x288)]
+        private int? ddasection = null;
         [EntityPropertyField(0x28B)]
         private EntitySetting? boxcount = null;
+        [EntityPropertyField(0x30E)]
+        private int? scaling = null;
+        [EntityPropertyField(0x337)]
+        private EntitySetting? bonusboxcount = null;
+
         private Dictionary<short,EntityProperty> extraproperties;
 
         public Entity(IDictionary<short,EntityProperty> properties)
@@ -207,35 +215,90 @@ namespace Crash
             set { subtype = value; }
         }
 
+        public string SLST
+        {
+            get
+            {
+                if (slst != null)
+                    return Entry.EIDToEName(slst);
+                else return null;
+            }
+            set
+            {
+                if (value != null)
+                    slst = BitConv.FromInt32(Entry.Str2EID(value));
+                else slst = null;
+            }
+        }
+
+        public int? OtherSettings
+        {
+            get { return othersettings; }
+            set { othersettings = value; }
+        }
+
+        public EntityVictimProperty CameraThing
+        {
+            get { return camerathing; }
+        }
+
         public EntityInt32Property DrawListA
         {
             get { return drawlista; }
+            set { drawlista = value; }
         }
 
         public EntityInt32Property DrawListB
         {
             get { return drawlistb; }
+            set { drawlistb = value; }
         }
 
         public EntityT4Property LoadListA
         {
             get { return loadlista; }
+            set { loadlista = value; }
         }
 
         public EntityT4Property LoadListB
         {
             get { return loadlistb; }
+            set { loadlistb = value; }
         }
 
-        public IList<short> Victims
+        public int? DDASettings
+        {
+            get { return ddasettings; }
+            set { ddasettings = value; }
+        }
+
+        public List<EntityVictim> Victims
         {
             get { return victims; }
+        }
+
+        public int? DDASection
+        {
+            get { return ddasection; }
+            set { ddasection = value; }
         }
 
         public EntitySetting? BoxCount
         {
             get { return boxcount; }
             set { boxcount = value; }
+        }
+
+        public int? Scaling
+        {
+            get { return scaling; }
+            set { scaling = value; }
+        }
+
+        public EntitySetting? BonusBoxCount
+        {
+            get { return bonusboxcount; }
+            set { bonusboxcount = value; }
         }
 
         public IDictionary<short,EntityProperty> ExtraProperties
@@ -245,6 +308,10 @@ namespace Crash
 
         public byte[] Save()
         {
+            if (LoadListA != null ^ LoadListB != null)
+                ErrorManager.SignalError("Entity: Entity contains one load list but not the other");
+            if (DrawListA != null ^ DrawListB != null)
+                ErrorManager.SignalError("Entity: Entity contains one draw list but not the other");
             SortedDictionary<short,EntityProperty> properties = new SortedDictionary<short,EntityProperty>(extraproperties);
             foreach (KeyValuePair<short,FieldInfo> pair in propertyfields)
             {

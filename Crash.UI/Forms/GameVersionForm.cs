@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Crash.UI
@@ -42,6 +38,12 @@ namespace Crash.UI
         private void cmdCrash3_Click(object sender,EventArgs e)
         {
             version = GameVersion.Crash3;
+            DialogResult = DialogResult.OK;
+        }
+
+        private void cmdCrash1Beta1995_Click(object sender, EventArgs e)
+        {
+            version = GameVersion.Crash1Beta1995;
             DialogResult = DialogResult.OK;
         }
 

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace Crash
 {
@@ -7,7 +6,7 @@ namespace Crash
     {
         private SampleSet samples;
 
-        public SoundEntry(SampleSet samples,int eid) : base(eid)
+        public SoundEntry(SampleSet samples,int eid,int size) : base(eid,size)
         {
             if (samples == null)
                 throw new ArgumentNullException("samples");
@@ -28,7 +27,7 @@ namespace Crash
         {
             byte[][] items = new byte [1][];
             items[0] = samples.Save();
-            return new UnprocessedEntry(items,EID,Type);
+            return new UnprocessedEntry(items,EID,Type,Size);
         }
     }
 }

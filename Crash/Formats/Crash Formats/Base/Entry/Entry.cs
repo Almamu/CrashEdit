@@ -86,7 +86,8 @@ namespace Crash
                 Array.Copy(data,itemstart,itemdata,0,itemsize);
                 items[i] = itemdata;
             }
-            return new UnprocessedEntry(items,eid,type);
+            int size = data.Length;
+            return new UnprocessedEntry(items,eid,type,size);
         }
 
         public static string EIDToEName(int eid)
@@ -101,11 +102,48 @@ namespace Crash
             return new string(str);
         }
 
-        private int eid;
+        public static string EIDToEName(int? eid)
+        {
+            char[] str = new char[5];
+            eid >>= 1;
+            for (int i = 0; i < 5; i++)
+            {
+                str[4 - i] = ENameCharacterSet[(int)eid & 0x3F];
+                eid >>= 6;
+            }
+            return new string(str);
+        }
 
-        public Entry(int eid)
+        // Special thanks to NeoKesha for this
+        public static int? Str2EID(string str)
+        {
+            int EID = 1;
+            for (byte i = 0; i < 5; i++)
+            {
+                byte chr_id = SeekCharId(str[i]);
+                EID = EID | (chr_id << (1 + 6 * i));
+            }
+            return EID;
+        }
+
+        // And this
+        public static byte SeekCharId(char chr)
+        {
+            byte i = 0;
+            while (i < 64 && !(chr == ENameCharacterSet[i]))
+            {
+                i++;
+            }
+            return i;
+        }
+
+        private int eid;
+        private int size;
+
+        public Entry(int eid,int size)
         {
             this.eid = eid;
+            this.size = size;
         }
 
         public abstract int Type
@@ -121,6 +159,11 @@ namespace Crash
         public string EName
         {
             get { return EIDToEName(eid); }
+        }
+
+        public int Size
+        {
+            get { return size; }
         }
 
         public abstract UnprocessedEntry Unprocess();

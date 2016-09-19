@@ -1,12 +1,11 @@
 using Crash;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 
 namespace CrashEdit
 {
@@ -67,17 +66,17 @@ namespace CrashEdit
                 int changey = 0;
                 int changez = 0;
                 if (keyup)
-                    changez -= 1;
+                    changez--;
                 if (keydown)
-                    changez += 1;
+                    changez++;
                 if (keyleft)
-                    changex -= 1;
+                    changex--;
                 if (keyright)
-                    changex += 1;
+                    changex++;
                 if (keya)
-                    changey += 1;
+                    changey++;
                 if (keyz)
-                    changey -= 1;
+                    changey--;
                 midx += changex * speed;
                 midy += changey * speed;
                 midz += changez * speed;
@@ -242,15 +241,14 @@ namespace CrashEdit
             MakeCurrent();
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.AlphaTest);
-            GL.DepthFunc(DepthFunction.Less);
+            GL.DepthFunc(DepthFunction.Lequal);
             GL.AlphaFunc(AlphaFunction.Greater,0);
             GL.Viewport(Location,Size);
-            GL.ClearColor(Color.Black);
-            GL.ClearDepth(short.MaxValue);
+            GL.ClearColor(0.05f,0.05f,0.05f,1);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            GL.Frustum(-0.0001,+0.0001,-0.0001,+0.0001,0.0001,short.MaxValue);
+            GL.Frustum(-0.01,+0.01,-0.01,+0.01,0.01,ushort.MaxValue);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
             GL.Translate(0,0,-1);
@@ -260,6 +258,8 @@ namespace CrashEdit
             GL.Translate(-midx,-midy,-midz);
             RenderObjects();
             SwapBuffers();
+            GL.Disable(EnableCap.DepthTest);
+            GL.Disable(EnableCap.AlphaTest);
         }
 
         public void ResetCamera()
