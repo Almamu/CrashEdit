@@ -61,6 +61,7 @@ namespace CrashEdit
             AddMenu("Fix Box Count", Menu_Fix_BoxCount);
             AddMenuSeparator();
             AddMenu("Show all level geometry", Menu_LoadFullScenery);
+            AddMenu("Show all level zones", Menu_LoadFullZone);
             InvalidateNode();
         }
 
@@ -274,10 +275,18 @@ namespace CrashEdit
                     }
                 }
 
-                Form form = new Form { Width = 800, Height = 600 };
-                ProtoSceneryEntryViewer viewer = new ProtoSceneryEntryViewer(entries) { Dock = DockStyle.Fill };
-                form.Controls.Add(viewer);
-                form.Show();
+
+                if (entries.Count == 0)
+                {
+                    MessageBox.Show("No scenery entries found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    Form form = new Form { Width = 800, Height = 600 };
+                    ProtoSceneryEntryViewer viewer = new ProtoSceneryEntryViewer(entries) { Dock = DockStyle.Fill };
+                    form.Controls.Add(viewer);
+                    form.Show();
+                }
             }
             else if (gameversion == GameVersion.Crash1)
             {
@@ -299,12 +308,19 @@ namespace CrashEdit
                     }
                 }
 
-                Form form = new Form { Width = 800, Height = 600 };
-                OldSceneryEntryViewer viewer = new OldSceneryEntryViewer(entries) { Dock = DockStyle.Fill };
-                form.Controls.Add(viewer);
-                form.Show();
+                if (entries.Count == 0)
+                {
+                    MessageBox.Show("No scenery entries found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    Form form = new Form { Width = 800, Height = 600 };
+                    OldSceneryEntryViewer viewer = new OldSceneryEntryViewer(entries) { Dock = DockStyle.Fill };
+                    form.Controls.Add(viewer);
+                    form.Show();
+                }
             }
-            else if(gameversion == GameVersion.Crash2)
+            else if (gameversion == GameVersion.Crash2)
             {
                 List<SceneryEntry> entries = new List<SceneryEntry>();
 
@@ -324,10 +340,17 @@ namespace CrashEdit
                     }
                 }
 
-                Form form = new Form { Width = 800, Height = 600 };
-                SceneryEntryViewer viewer = new SceneryEntryViewer(entries) { Dock = DockStyle.Fill };
-                form.Controls.Add(viewer);
-                form.Show();
+                if (entries.Count == 0)
+                {
+                    MessageBox.Show("No scenery entries found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    Form form = new Form { Width = 800, Height = 600 };
+                    SceneryEntryViewer viewer = new SceneryEntryViewer(entries) { Dock = DockStyle.Fill };
+                    form.Controls.Add(viewer);
+                    form.Show();
+                }
             }
             else if (gameversion == GameVersion.Crash3)
             {
@@ -349,14 +372,186 @@ namespace CrashEdit
                     }
                 }
 
-                Form form = new Form { Width = 800, Height = 600 };
-                NewSceneryEntryViewer viewer = new NewSceneryEntryViewer(entries) { Dock = DockStyle.Fill };
-                form.Controls.Add(viewer);
-                form.Show();
+
+                if (entries.Count == 0)
+                {
+                    MessageBox.Show("No scenery entries found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    Form form = new Form { Width = 800, Height = 600 };
+                    NewSceneryEntryViewer viewer = new NewSceneryEntryViewer(entries) { Dock = DockStyle.Fill };
+                    form.Controls.Add(viewer);
+                    form.Show();
+                }
             }
             else
             {
                 MessageBox.Show("The specified game version is not supported", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Menu_LoadFullZone()
+        {
+            if (gameversion == GameVersion.Crash1Beta1995 || gameversion == GameVersion.Crash1BetaMAR08 || gameversion == GameVersion.Crash1BetaMAY11)
+            {
+                List<ProtoZoneEntry> entries = new List<ProtoZoneEntry>();
+                List<ProtoSceneryEntry> sceneryEntries = new List<ProtoSceneryEntry>();
+
+                foreach (Chunk chunk in nsf.Chunks)
+                {
+                    if (chunk is EntryChunk)
+                    {
+                        EntryChunk entryChunk = chunk as EntryChunk;
+
+                        foreach (Entry entry in entryChunk.Entries)
+                        {
+                            if (entry is ProtoZoneEntry)
+                            {
+                                ProtoZoneEntry zoneentry = entry as ProtoZoneEntry;
+                                int linkedsceneryentrycount = BitConv.FromInt32(zoneentry.Unknown1, 0);
+                                for (int i = 0; i < linkedsceneryentrycount; i++)
+                                {
+                                    sceneryEntries.Add(nsf.FindEID<ProtoSceneryEntry>(BitConv.FromInt32(zoneentry.Unknown1, 4 + i * 48)));
+                                }
+
+                                entries.Add(entry as ProtoZoneEntry);
+                            }
+                        }
+                    }
+                }
+
+
+                if (entries.Count == 0)
+                {
+                    MessageBox.Show("No zone entries found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    Form form = new Form { Width = 800, Height = 600 };
+                    ProtoZoneEntryViewer viewer = new ProtoZoneEntryViewer(entries, sceneryEntries.ToArray()) { Dock = DockStyle.Fill };
+                    form.Controls.Add(viewer);
+                    form.Show();
+                }
+            }
+            else if (gameversion == GameVersion.Crash1)
+            {
+                List<OldZoneEntry> entries = new List<OldZoneEntry>();
+                List<OldSceneryEntry> sceneryEntries = new List<OldSceneryEntry>();
+
+                foreach (Chunk chunk in nsf.Chunks)
+                {
+                    if (chunk is EntryChunk)
+                    {
+                        EntryChunk entryChunk = chunk as EntryChunk;
+
+                        foreach (Entry entry in entryChunk.Entries)
+                        {
+                            if (entry is ZoneEntry)
+                            {
+                                OldZoneEntry zoneentry = entry as OldZoneEntry;
+                                int linkedsceneryentrycount = BitConv.FromInt32(zoneentry.Unknown1, 0);
+                                for (int i = 0; i < linkedsceneryentrycount; i++)
+                                {
+                                    sceneryEntries.Add(nsf.FindEID<OldSceneryEntry>(BitConv.FromInt32(zoneentry.Unknown1, 4 + i * 48)));
+                                }
+                                entries.Add(entry as OldZoneEntry);
+                            }
+                        }
+                    }
+                }
+
+                if (entries.Count == 0)
+                {
+                    MessageBox.Show("No zone entries found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    Form form = new Form { Width = 800, Height = 600 };
+                    OldZoneEntryViewer viewer = new OldZoneEntryViewer(entries, sceneryEntries.ToArray()) { Dock = DockStyle.Fill };
+                    form.Controls.Add(viewer);
+                    form.Show();
+                }
+            }
+            else if (gameversion == GameVersion.Crash2)
+            {
+                List<ZoneEntry> entries = new List<ZoneEntry>();
+                List<SceneryEntry> sceneryEntries = new List<SceneryEntry>();
+
+                foreach (Chunk chunk in nsf.Chunks)
+                {
+                    if (chunk is EntryChunk)
+                    {
+                        EntryChunk entryChunk = chunk as EntryChunk;
+
+                        foreach (Entry entry in entryChunk.Entries)
+                        {
+                            if (entry is ZoneEntry)
+                            {
+                                ZoneEntry zoneentry = entry as ZoneEntry;
+                                int linkedsceneryentrycount = BitConv.FromInt32(zoneentry.Unknown1, 0);
+                                for (int i = 0; i < linkedsceneryentrycount; i++)
+                                {
+                                    sceneryEntries.Add(nsf.FindEID<SceneryEntry>(BitConv.FromInt32(zoneentry.Unknown1, 4 + i * 48)));
+                                }
+
+                                entries.Add(entry as ZoneEntry);
+                            }
+                        }
+                    }
+                }
+
+                if (entries.Count == 0)
+                {
+                    MessageBox.Show("No zone entries found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    Form form = new Form { Width = 800, Height = 600 };
+                    ZoneEntryViewer viewer = new ZoneEntryViewer(entries, sceneryEntries.ToArray()) { Dock = DockStyle.Fill };
+                    form.Controls.Add(viewer);
+                    form.Show();
+                }
+            }
+            else if (gameversion == GameVersion.Crash3)
+            {
+                List<NewZoneEntry> entries = new List<NewZoneEntry>();
+                List<NewSceneryEntry> sceneryEntries = new List<NewSceneryEntry>();
+
+                foreach (Chunk chunk in nsf.Chunks)
+                {
+                    if (chunk is EntryChunk)
+                    {
+                        EntryChunk entryChunk = chunk as EntryChunk;
+
+                        foreach (Entry entry in entryChunk.Entries)
+                        {
+                            if (entry is NewZoneEntry)
+                            {
+                                NewZoneEntry zoneentry = entry as NewZoneEntry;
+                                int linkedsceneryentrycount = BitConv.FromInt32(zoneentry.Unknown1, 0);
+                                for (int i = 0; i < linkedsceneryentrycount; i++)
+                                {
+                                    sceneryEntries.Add(nsf.FindEID<NewSceneryEntry>(BitConv.FromInt32(zoneentry.Unknown1, 4 + i * 48)));
+                                }
+
+                                entries.Add(entry as NewZoneEntry);
+                            }
+                        }
+                    }
+                }
+
+                if (entries.Count == 0)
+                {
+                    MessageBox.Show("No zone entries found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    Form form = new Form { Width = 800, Height = 600 };
+                    NewZoneEntryViewer viewer = new NewZoneEntryViewer(entries, sceneryEntries.ToArray()) { Dock = DockStyle.Fill };
+                    form.Controls.Add(viewer);
+                    form.Show();
+                }
             }
         }
     }
