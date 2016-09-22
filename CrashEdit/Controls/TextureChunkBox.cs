@@ -81,6 +81,57 @@ namespace CrashEdit
                 page.Controls.Add(picture);
                 tbcTabs.TabPages.Add(page);
             }
+            for (int paleteNum = 0; paleteNum < 16; paleteNum++)
+            {
+                {
+                    Bitmap result = new Bitmap(512, 112, PixelFormat.Format8bppIndexed);
+                    ColorPalette palette = result.Palette;
+                    Color[] colors = palette.Entries;
+
+                    // palettes are 256x1 so we create a test palete
+                    int paleteWidth = 256;
+                    int paleteHeight = 16;
+
+                    for (int x = 0; x < paleteWidth; x++)
+                    {
+                        short color16 = BitConv.FromInt16(chunk.Data, (x + paleteNum * paleteWidth) * 2);
+                        byte alpha, red, green, blue;
+
+                        PixelConv.Unpack1555(color16, out alpha, out blue, out green, out red);
+                        Color cl = Color.FromArgb(((alpha == 0) ? 0 : 255), red << 3, green << 3, blue << 3);
+                        colors[x] = cl;
+                    }
+
+                    result.Palette = palette;
+
+                    // Bitmap bitmap = new Bitmap(512,112,PixelFormat.Format16bppArgb1555);
+                    Rectangle brect = new Rectangle(Point.Empty, result.Size);
+                    BitmapData bdata = result.LockBits(brect, ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
+
+                    try
+                    {
+                        for (int y = paleteHeight; y < 128; y++)
+                        {
+                            for (int x = 0; x < 512; x++)
+                            {
+                                byte color = chunk.Data[x + y * 512];
+                                System.Runtime.InteropServices.Marshal.WriteByte(bdata.Scan0, x + (y - paleteHeight) * bdata.Stride, color);
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        result.UnlockBits(bdata);
+                    }
+                    PictureBox picture = new PictureBox();
+                    picture.Dock = DockStyle.Fill;
+                    picture.Image = result;
+                    TabPage page = new TabPage("Palette " + paleteNum);
+                    page.Controls.Add(picture);
+                    tbcTabs.TabPages.Add(page);
+                    tbcTabs.SelectedTab = page;
+                }
+            }
             Controls.Add(tbcTabs);
         }
     }
