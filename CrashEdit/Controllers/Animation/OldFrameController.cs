@@ -22,6 +22,8 @@ namespace CrashEdit
             Node.ImageKey = "arrow";
             Node.SelectedImageKey = "arrow";
             AddMenu("Export as OBJ",Menu_Export_OBJ);
+            AddMenuSeparator();
+            AddMenu("Go to model information", Menu_ModelInformation);
         }
 
         protected override Control CreateEditor()
@@ -69,6 +71,16 @@ namespace CrashEdit
                 return;
             }
             FileUtil.SaveFile(oldframe.ToOBJ(modelentry),FileFilters.OBJ,FileFilters.Any);
+        }
+
+        private void Menu_ModelInformation()
+        {
+            OldModelEntry modelentry = OldAnimationEntryController.EntryChunkController.NSFController.NSF.FindEID<OldModelEntry>(oldframe.ModelEID);
+
+            if(NSFBox.sInstance != null)
+            {
+                NSFBox.sInstance.Find(modelentry.EID.ToString("X16"));
+            }
         }
     }
 }

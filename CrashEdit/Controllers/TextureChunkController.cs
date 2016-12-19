@@ -15,7 +15,7 @@ namespace CrashEdit
 
         public override void InvalidateNode()
         {
-            Node.Text = string.Format("Texture Chunk {1} ({0})",Entry.EIDToEName(texturechunk.EID),NSFController.chunkid);
+            Node.Text = string.Format("Texture Chunk {1} ({0} - {2})",Entry.EIDToEName(texturechunk.EID),NSFController.chunkid, texturechunk.EID.ToString("X16"));
             Node.ImageKey = "image";
             Node.SelectedImageKey = "image";
         }
