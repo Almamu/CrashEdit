@@ -83,7 +83,7 @@ namespace Crash
             return new UnprocessedEntry(items,EID,Type,Size);
         }
 
-        public byte[] ToOBJ()
+        public byte[] ToOBJ(int start = 0)
         {
             using (MemoryStream stream = new MemoryStream())
             {
@@ -98,7 +98,7 @@ namespace Crash
                     obj.WriteLine("# Polygons");
                     foreach (ProtoSceneryPolygon polygon in polygons)
                     {
-                        obj.WriteLine("f {0} {1} {2}", polygon.VertexA + 1, polygon.VertexB + 1, polygon.VertexC + 1);
+                        obj.WriteLine("f {0} {1} {2}", (polygon.VertexA + 1 + start), (polygon.VertexB + 1 + start), (polygon.VertexC + 1 + start));
                     }
                 }
                 return stream.ToArray();

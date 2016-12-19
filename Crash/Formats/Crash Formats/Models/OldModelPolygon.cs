@@ -20,14 +20,14 @@ namespace Crash
         private short vertexa;
         private short vertexb;
         private short vertexc;
-        private short unknown;
+        private short flagTex;
 
-        public OldModelPolygon(short vertexa,short vertexb,short vertexc,short unknown)
+        public OldModelPolygon(short vertexa,short vertexb,short vertexc,short flagTex)
         {
             this.vertexa = vertexa;
             this.vertexb = vertexb;
             this.vertexc = vertexc;
-            this.unknown = unknown;
+            this.flagTex = flagTex;
         }
 
         public short VertexA
@@ -45,9 +45,9 @@ namespace Crash
             get { return vertexc; }
         }
 
-        public short Unknown
+        public short FlagTex
         {
-            get { return unknown; }
+            get { return flagTex; }
         }
 
         public byte[] Save()
@@ -56,7 +56,7 @@ namespace Crash
             BitConv.ToInt16(data,0,vertexa);
             BitConv.ToInt16(data,2,vertexb);
             BitConv.ToInt16(data,4,vertexc);
-            BitConv.ToInt16(data,6,unknown);
+            BitConv.ToInt16(data,6,flagTex);
             return data;
         }
     }

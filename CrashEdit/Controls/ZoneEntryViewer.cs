@@ -65,6 +65,24 @@ namespace CrashEdit
             allentries = false;
         }
 
+        public ZoneEntryViewer(List<ZoneEntry> entries, SceneryEntry[] linkedsceneryentries) : base(linkedsceneryentries)
+        {
+            this.entry = entries[0];
+            entries.Remove(this.entry);
+            this.linkedentries = entries.ToArray();
+            renderoctree = false;
+            octreedisplaylists = new int[linkedentries.Length + 1];
+            for (int i = 0; i < octreedisplaylists.Length; i++)
+            {
+                octreedisplaylists[i] = -1;
+            }
+            octreevalues = new Dictionary<short, Color>();
+            octreeselection = -1;
+            deletelists = false;
+            polygonmode = false;
+            allentries = false;
+        }
+
         protected override int CameraRangeMargin
         {
             get { return 1600; }

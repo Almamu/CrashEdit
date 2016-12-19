@@ -124,7 +124,7 @@ namespace CrashEdit
                 GL.Begin(PrimitiveType.Triangles);
                 foreach (OldModelPolygon polygon in model.Polygons)
                 {
-                    int coloroffset = 20 + (polygon.Unknown & 0x7FFF) * 4;
+                    int coloroffset = 20 + (polygon.FlagTex & 0x7FFF) * 4;
                     byte r = model.Info[coloroffset + 0];
                     byte g = model.Info[coloroffset + 1];
                     byte b = model.Info[coloroffset + 2];

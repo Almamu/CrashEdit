@@ -1,4 +1,5 @@
 using Crash;
+using System.Windows.Forms;
 
 namespace CrashEdit
 {
@@ -14,9 +15,16 @@ namespace CrashEdit
 
         public override void InvalidateNode()
         {
-            Node.Text = string.Format("Old Model ({0})",oldmodelentry.EName);
+            Node.Text = string.Format("Old Model ({0} - {1})",oldmodelentry.EName, oldmodelentry.EID.ToString("X16"));
             Node.ImageKey = "thing";
             Node.SelectedImageKey = "thing";
+        }
+
+        // MONO USERS
+        // Comment out this function
+        protected override Control CreateEditor()
+        {
+            return new OldModelEntryViewer(oldmodelentry);
         }
 
         public OldModelEntry OldModelEntry

@@ -2,6 +2,7 @@ using Crash;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.IO;
 
 namespace CrashEdit
 {
@@ -62,6 +63,7 @@ namespace CrashEdit
             AddMenuSeparator();
             AddMenu("Show all level geometry", Menu_LoadFullScenery);
             AddMenu("Show all level zones", Menu_LoadFullZone);
+            AddMenu("Export scenery as .OBJ", Menu_ExportScenery);
             InvalidateNode();
         }
 
@@ -249,6 +251,208 @@ namespace CrashEdit
                 if (willy.BoxCount.HasValue)
                 {
                     willy.BoxCount = new EntitySetting(0, boxcount);
+                }
+            }
+        }
+
+        private void Menu_ExportScenery()
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "OBJ files|*.obj";
+
+            DialogResult result = dialog.ShowDialog();
+
+            if(result != DialogResult.OK)
+            {
+                return;
+            }
+            
+            if (gameversion == GameVersion.Crash1Beta1995 || gameversion == GameVersion.Crash1BetaMAR08 || gameversion == GameVersion.Crash1BetaMAY11)
+            {
+                List<ProtoSceneryEntry> entries = new List<ProtoSceneryEntry>();
+
+                foreach (Chunk chunk in nsf.Chunks)
+                {
+                    if (chunk is EntryChunk)
+                    {
+                        EntryChunk entryChunk = chunk as EntryChunk;
+
+                        foreach (Entry entry in entryChunk.Entries)
+                        {
+                            if (entry is ProtoSceneryEntry)
+                            {
+                                entries.Add(entry as ProtoSceneryEntry);
+                            }
+                        }
+                    }
+                }
+
+                if (entries.Count == 0)
+                {
+                    MessageBox.Show("No scenery entries found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    List<byte[]> outputs = new List<byte[]>();
+                    int vertexStart = 0;
+
+                    foreach (ProtoSceneryEntry scenery in entries)
+                    {
+                        byte[] tmp = scenery.ToOBJ(vertexStart);
+                        outputs.Add(tmp);
+                        vertexStart += scenery.Vertices.Count;
+                    }
+
+                    FileStream fp = File.OpenWrite(dialog.FileName);
+
+                    foreach (byte[] data in outputs)
+                    {
+                        fp.Write(data, 0, data.Length);
+                    }
+
+                    fp.Flush();
+                    fp.Close();
+                }
+            }
+            else if (gameversion == GameVersion.Crash1)
+            {
+                List<OldSceneryEntry> entries = new List<OldSceneryEntry>();
+
+                foreach (Chunk chunk in nsf.Chunks)
+                {
+                    if (chunk is EntryChunk)
+                    {
+                        EntryChunk entryChunk = chunk as EntryChunk;
+
+                        foreach (Entry entry in entryChunk.Entries)
+                        {
+                            if (entry is OldSceneryEntry)
+                            {
+                                entries.Add(entry as OldSceneryEntry);
+                            }
+                        }
+                    }
+                }
+
+                if (entries.Count == 0)
+                {
+                    MessageBox.Show("No scenery entries found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    List<byte[]> outputs = new List<byte[]>();
+                    int vertexStart = 0;
+
+                    foreach (OldSceneryEntry scenery in entries)
+                    {
+                        byte[] tmp = scenery.ToOBJ(vertexStart);
+                        outputs.Add(tmp);
+                        vertexStart += scenery.Vertices.Count;
+                    }
+
+                    FileStream fp = File.OpenWrite(dialog.FileName);
+
+                    foreach (byte[] data in outputs)
+                    {
+                        fp.Write(data, 0, data.Length);
+                    }
+
+                    fp.Flush();
+                    fp.Close();
+                }
+            }
+            else if (gameversion == GameVersion.Crash2)
+            {
+                List<SceneryEntry> entries = new List<SceneryEntry>();
+
+                foreach (Chunk chunk in nsf.Chunks)
+                {
+                    if (chunk is EntryChunk)
+                    {
+                        EntryChunk entryChunk = chunk as EntryChunk;
+
+                        foreach (Entry entry in entryChunk.Entries)
+                        {
+                            if (entry is SceneryEntry)
+                            {
+                                entries.Add(entry as SceneryEntry);
+                            }
+                        }
+                    }
+                }
+
+                if (entries.Count == 0)
+                {
+                    MessageBox.Show("No scenery entries found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    List<byte[]> outputs = new List<byte[]>();
+                    int vertexStart = 0;
+
+                    foreach (SceneryEntry scenery in entries)
+                    {
+                        byte[] tmp = scenery.ToOBJ(vertexStart);
+                        outputs.Add(tmp);
+                        vertexStart += scenery.Vertices.Count;
+                    }
+
+                    FileStream fp = File.OpenWrite(dialog.FileName);
+
+                    foreach (byte[] data in outputs)
+                    {
+                        fp.Write(data, 0, data.Length);
+                    }
+
+                    fp.Flush();
+                    fp.Close();
+                }
+            }
+            else if (gameversion == GameVersion.Crash3)
+            {
+                List<NewSceneryEntry> entries = new List<NewSceneryEntry>();
+
+                foreach (Chunk chunk in nsf.Chunks)
+                {
+                    if (chunk is EntryChunk)
+                    {
+                        EntryChunk entryChunk = chunk as EntryChunk;
+
+                        foreach (Entry entry in entryChunk.Entries)
+                        {
+                            if (entry is NewSceneryEntry)
+                            {
+                                entries.Add(entry as NewSceneryEntry);
+                            }
+                        }
+                    }
+                }
+
+                if (entries.Count == 0)
+                {
+                    MessageBox.Show("No scenery entries found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    List<byte[]> outputs = new List<byte[]>();
+                    int vertexStart = 0;
+
+                    foreach (NewSceneryEntry scenery in entries)
+                    {
+                        byte[] tmp = scenery.ToOBJ(vertexStart);
+                        outputs.Add(tmp);
+                        vertexStart += scenery.Vertices.Count;
+                    }
+
+                    FileStream fp = File.OpenWrite(dialog.FileName);
+
+                    foreach (byte[] data in outputs)
+                    {
+                        fp.Write(data, 0, data.Length);
+                    }
+
+                    fp.Flush();
+                    fp.Close();
                 }
             }
         }
@@ -447,7 +651,7 @@ namespace CrashEdit
 
                         foreach (Entry entry in entryChunk.Entries)
                         {
-                            if (entry is ZoneEntry)
+                            if (entry is OldZoneEntry)
                             {
                                 OldZoneEntry zoneentry = entry as OldZoneEntry;
                                 int linkedsceneryentrycount = BitConv.FromInt32(zoneentry.Unknown1, 0);

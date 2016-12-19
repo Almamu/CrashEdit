@@ -8,6 +8,7 @@ namespace CrashEdit
     public sealed class NSFBox : UserControl
     {
         private static ImageList imglist;
+        public static NSFBox sInstance;
 
         static NSFBox()
         {
@@ -65,6 +66,7 @@ namespace CrashEdit
             pnSplit.Panel1.Controls.Add(trvMain);
 
             Controls.Add(pnSplit);
+            sInstance = this;
         }
 
         public NSF NSF

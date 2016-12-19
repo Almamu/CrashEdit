@@ -19,7 +19,7 @@ namespace CrashEdit
 
         public override void InvalidateNode()
         {
-            Node.Text = string.Format("Old Animation ({0})",oldanimationentry.EName);
+            Node.Text = string.Format("Old Animation ({0} - {1})",oldanimationentry.EName, oldanimationentry.EID.ToString("X16"));
             Node.ImageKey = "thing";
             Node.SelectedImageKey = "thing";
         }
