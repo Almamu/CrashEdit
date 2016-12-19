@@ -133,6 +133,12 @@
     <Compile Include="Controls\NewEntityBox.Designer.cs">
       <DependentUpon>NewEntityBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\OldModelEntryViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\OldModelEntryViewer.Designer.cs">
+      <DependentUpon>OldModelEntryViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ProtoAnimationEntryViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -282,8 +288,10 @@
       <HintPath>..\..\..\..\..\..\OpenTK\1.1\Binaries\OpenTK\Release\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\NewEntityBox.resx">
